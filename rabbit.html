@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>생일 축하해 🎂</title>
+
+<!-- 손글씨 느낌의 온글잎 계열 웹폰트 -->
+<style>
+@font-face {
+    font-family: 'Yoonwoo';
+    src: url('https://cdn.jsdelivr.net/gh/fontbee/font@main/ownglyph/Yoonwoo.woff')
+         format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+</style>
+
+<style>
+
+/* =========================
+   기본 설정
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: Arial, "Noto Sans KR", sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffe5ec,
+            #fff4d6,
+            #e5f3ff
+        );
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   카드
+========================= */
+
+.card {
+    width: min(90%, 520px);
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    padding: 55px 30px 45px;
+
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.88);
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 20px 60px rgba(120, 80, 100, 0.18);
+
+    animation: appear 0.8s ease;
+}
+
+
+/* =========================
+   이모지
+========================= */
+
+.emoji {
+    font-size: 64px;
+    margin-bottom: 18px;
+
+    animation: bounce 2s infinite;
+}
+
+
+/* =========================
+   첫 화면
+========================= */
+
+h1 {
+    margin: 0 0 16px;
+
+    color: #333;
+
+    font-size: clamp(25px, 6vw, 36px);
+
+    line-height: 1.35;
+}
+
+#question p {
+    color: #777;
+
+    font-size: 16px;
+
+    margin: 0 0 35px;
+}
+
+
+/* =========================
+   버튼
+========================= */
+
+.buttons {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 16px;
+
+    min-height: 62px;
+}
+
+button {
+    border: 0;
+
+    border-radius: 15px;
+
+    padding: 15px 34px;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+#yes {
+    background: #ff6f91;
+
+    color: white;
+
+    box-shadow:
+        0 8px 20px rgba(255, 111, 145, 0.3);
+}
+
+#yes:hover {
+    transform:
+        translateY(-3px)
+        scale(1.04);
+}
+
+#no {
+    background: #eee;
+
+    color: #777;
+}
+
+
+/* =========================
+   편지 화면
+========================= */
+
+.message {
+
+    display: none;
+
+    position: relative;
+
+    margin: -55px -30px -45px;
+
+    padding: 45px 25px;
+
+    min-height: 500px;
+
+    /*
+       편지 화면 전체 배경
+    */
+
+    background:
+
+        /* 작은 종이 점 */
+        radial-gradient(
+            rgba(150, 110, 70, 0.08) 1px,
+            transparent 1px
+        ),
+
+        /* 따뜻한 종이 색 */
+        #fff8e8;
+
+    background-size:
+        8px 8px,
+        auto;
+
+    animation: letterAppear 0.8s ease;
+
+    font-family:
+        'Yoonwoo',
+        'Noto Sans KR',
+        sans-serif;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   편지 종이
+========================= */
+
+.letter-paper {
+
+    position: relative;
+
+    width: 100%;
+
+    padding: 38px 28px 45px;
+
+    background: #fffdf5;
+
+    border-radius: 8px;
+
+    /*
+       종이 그림자
+    */
+
+    box-shadow:
+        0 8px 20px rgba(80, 55, 30, 0.12);
+
+    /*
+       편지 줄
+    */
+
+    background-image:
+
+        linear-gradient(
+            transparent 34px,
+            rgba(170, 150, 120, 0.20) 35px,
+            transparent 36px
+        );
+
+    background-size:
+        100% 36px;
+
+    transform:
+        rotate(-0.4deg);
+}
+
+
+/* =========================
+   편지 위 장식
+========================= */
+
+.letter-decoration {
+
+    position: absolute;
+
+    top: 12px;
+    right: 18px;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 24px;
+
+    transform: rotate(10deg);
+}
+
+
+/* =========================
+   편지 제목
+========================= */
+
+.message h2 {
+
+    position: relative;
+
+    margin: 0 0 30px;
+
+    color: #e85b7a;
+
+    font-size: clamp(25px, 6vw, 34px);
+
+    line-height: 1.5;
+
+    font-weight: normal;
+}
+
+
+/* =========================
+   편지 본문
+========================= */
+
+.message p {
+
+    position: relative;
+
+    color: #55483f;
+
+    line-height: 2.05;
+
+    font-size: 18px;
+
+    text-align: left;
+
+    margin: 0;
+
+    word-break: keep-all;
+
+    font-weight: normal;
+}
+
+
+/* =========================
+   편지 마지막 장식
+========================= */
+
+.letter-end {
+
+    margin-top: 30px;
+
+    text-align: center;
+
+    font-size: 25px;
+
+    letter-spacing: 5px;
+}
+
+
+/* =========================
+   하트
+========================= */
+
+.heart {
+
+    position: fixed;
+
+    font-size: 22px;
+
+    animation:
+        floatUp 4s linear forwards;
+
+    pointer-events: none;
+
+    z-index: 100;
+}
+
+
+/* =========================
+   애니메이션
+========================= */
+
+@keyframes appear {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes letterAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(0.95)
+            translateY(20px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+    }
+}
+
+
+@keyframes bounce {
+
+    0%, 100% {
+        transform:
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateY(-9px);
+    }
+}
+
+
+@keyframes floatUp {
+
+    from {
+
+        transform:
+            translateY(0)
+            rotate(0deg);
+
+        opacity: 1;
+    }
+
+    to {
+
+        transform:
+            translateY(-110vh)
+            rotate(360deg);
+
+        opacity: 0;
+    }
+}
+
+
+/* =========================
+   모바일
+========================= */
+
+@media (max-width: 600px) {
+
+    .card {
+        width: 92%;
+
+        padding:
+            45px 22px 35px;
+    }
+
+    .message {
+
+        margin:
+            -45px -22px -35px;
+
+        padding:
+            35px 18px;
+    }
+
+    .letter-paper {
+
+        padding:
+            35px 20px 40px;
+    }
+
+    .message p {
+
+        font-size: 17px;
+
+        line-height: 2;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div class="card">
+
+
+    <!-- =================================
+         처음 화면
+    ================================== -->
+
+    <div id="question">
+
+        <div class="emoji">
+            🎂
+        </div>
+
+
+        <h1>
+            생일 축하해! 🎉
+            <br>
+            내가 선물을 줄 건데 받을 거야?
+        </h1>
+
+
+        <p>
+            신중하게 선택해 주세요... 😏
+        </p>
+
+
+        <div class="buttons">
+
+            <button id="yes">
+                Yas 💝
+            </button>
+
+            <button id="no">
+                No 🙅
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================
+         Yas를 눌렀을 때 나오는 편지
+    ================================== -->
+
+    <div class="message" id="gift">
+
+
+        <div class="letter-paper">
+
+
+            <!-- 편지 장식 -->
+
+            <div class="letter-decoration">
+                💌
+            </div>
+
+
+            <!-- 편지 제목 -->
+
+            <h2>
+                안녕 또끼야,
+                <br>
+                생일 축하해! 🎂💗
+            </h2>
+
+
+            <!-- 편지 내용 -->
+
+            <p>
+
+                우리가 알게된 시간은 짧지만
+                서로 친하게 지내면서 친분이 쌓여서
+                내가 아침부터 코드로 페이지를 만드느라 힘들었다!
+
+                <br><br>
+
+                18번째 생일 진심으로 축하하고!
+                앞으로 좋은일만 가능하고,
+                앞으로 행운이 더욱 많이 들어올거니깐
+                아무걱정 말고!
+
+                <br><br>
+
+                꼭 잘 뚜따뚜따해서 잘 해서
+                잘 살아면 좋겠어~
+
+                <br>
+
+                앞으로도 잘 부탁하고,
+
+                <br><br>
+
+                이제 시험 기간인데
+                시험 점수때메 고생하는거 하지말고
+                꼭 맘편하게 시험 보면 좋겠어!
+
+                <br><br>
+
+                대학도 잘 들어가구 알았지?
+
+                <br>
+
+                화이팅하고~ 💗
+
+            </p>
+
+
+            <div class="letter-end">
+                ♡ ♡ ♡
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =================================
+   버튼 가져오기
+================================= */
+
+const yes =
+    document.getElementById("yes");
+
+const no =
+    document.getElementById("no");
+
+const question =
+    document.getElementById("question");
+
+const gift =
+    document.getElementById("gift");
+
+
+/* No 버튼 크기 */
+
+let noSize = 1;
+
+
+
+/* =================================
+   Yas 버튼
+================================= */
+
+yes.addEventListener("click", () => {
+
+
+    /*
+       처음 화면 숨기기
+    */
+
+    question.style.display = "none";
+
+
+    /*
+       편지 화면 보여주기
+    */
+
+    gift.style.display = "block";
+
+
+    /*
+       하트 효과
+    */
+
+    for (
+        let i = 0;
+        i < 25;
+        i++
+    ) {
+
+        setTimeout(
+            createHeart,
+            i * 70
+        );
+
+    }
+
+});
+
+
+
+/* =================================
+   No 버튼
+================================= */
+
+no.addEventListener("click", () => {
+
+
+    noSize *= 0.65;
+
+
+    if (noSize < 0.05) {
+
+        noSize = 0.05;
+
+    }
+
+
+    no.style.transform =
+        `scale(${noSize})`;
+
+
+    no.style.opacity =
+        Math.max(noSize, 0.25);
+
+
+    /*
+       너무 작아지면
+       클릭할 수 없게 만들기
+    */
+
+    if (noSize <= 0.05) {
+
+        no.style.pointerEvents =
+            "none";
+
+        no.textContent =
+            "No 😢";
+
+    }
+
+});
+
+
+
+/* =================================
+   하트 생성
+================================= */
+
+function createHeart() {
+
+
+    const heart =
+        document.createElement("div");
+
+
+    heart.className =
+        "heart";
+
+
+    /*
+       여러 가지 이모지 랜덤
+    */
+
+    heart.textContent =
+        [
+            "💗",
+            "💕",
+            "💖",
+            "🎉",
+            "✨",
+            "💌"
+        ][
+            Math.floor(
+                Math.random() * 6
+            )
+        ];
+
+
+    /*
+       화면 가로 위치 랜덤
+    */
+
+    heart.style.left =
+        Math.random() * 100 + "vw";
+
+
+    /*
+       화면 아래쪽에서 시작
+    */
+
+    heart.style.top =
+        (
+            80 +
+            Math.random() * 20
+        ) + "vh";
+
+
+    /*
+       크기 랜덤
+    */
+
+    heart.style.fontSize =
+        (
+            16 +
+            Math.random() * 20
+        ) + "px";
+
+
+    document.body.appendChild(
+        heart
+    );
+
+
+    /*
+       4초 뒤 삭제
+    */
+
+    setTimeout(() => {
+
+        heart.remove();
+
+    }, 4000);
+
+}
+
+</script>
+
+</body>
+</html>
